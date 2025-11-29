@@ -1,0 +1,10 @@
+[package]
+name = "register"
+version = "0.1.0"
+edition = "2024"
+[lib]
+
+[dependencies]
+serde = { version = "1.0.228", features = ["derive"] }
+derive_more = { version = "2.0.1", features = ["full"] }
+register_macro = {path="./register_macro"}

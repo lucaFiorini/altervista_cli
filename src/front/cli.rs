@@ -1,28 +1,61 @@
-use std::io;
-use crate::model::class::*;
+use std::collections::LinkedList;
+use std::env;
+use std::io::{self, Write};
+use crossterm::{cursor, event, execute, terminal, terminal::{ScrollUp, SetSize, size}, ExecutableCommand};
+use crossterm::event::{KeyCode, KeyEvent};
+use defer::defer;
+use dotenv::dotenv;
 
-pub enum State {
-    Main,
-    CreatingExam,
-    AssigningExam(Exam),
-    SelectingClass,
-    SelectingTest(Class),
-    GradingTest(Student)
-}
+pub fn cli_run() -> io::Result<()> {
+    // Initialize the terminal
+    terminal::enable_raw_mode()?;
 
-fn load_class_data() {
-    let data =
-}
-// The main bit
-fn run_cli(){
-    let mut state = State::Main;
+    // Defer disabling raw mode to restore terminal when the function exits
+    defer!({let _ = terminal::disable_raw_mode();});
 
-    /*
-    fn main() -> io::Result<()> {
-        let mut buffer = String::new();
-        let stdin = io::stdin(); // We get `Stdin` here.
-        stdin.read_line(&mut buffer)?;
-        Ok(())
+    // Get stdout to write to the terminal
+    let mut stdout = io::stdout();
+
+    // Clear the terminal screen
+    stdout.execute(terminal::Clear(terminal::ClearType::All))?;
+    stdout.execute(cursor::EnableBlinking)?;
+    stdout.execute(cursor::MoveTo(0, 0))?;
+
+    // Print a welcome message
+    println!("Welcome to the CLI. Press 'q' to quit.");
+
+    // Main input loop
+    loop {
+        let mut  token_stack : LinkedList<String> = LinkedList::new();
+
+        // If there's an event available (like a key press), handle it
+        if event::poll(std::time::Duration::from_millis(100))? {
+            // Read the event
+            if let event::Event::Key(KeyEvent { code, modifiers, kind, state }) = event::read()? {
+                match code {
+                    // If the user presses 'q' or 'Esc', quit the loop
+                    KeyCode::Char('q') => {
+                        println!("Quitting...");
+                        break;
+                    },
+                    KeyCode::Esc => {
+                        println!("Exiting...");
+                        break;
+                    },
+                    // Handle other keys
+                    KeyCode::Char(c) => {
+                        print!("You pressed: '{}'", c);
+                        stdout.flush()?;
+                    },
+                    KeyCode::Backspace => {
+                        print!("")
+                    }
+                    _ => {}
+                }
+            }
+        }
     }
-    */
+
+    // Ensure the terminal is restored when we're done
+    Ok(())
 }

@@ -1,0 +1,46 @@
+{
+  "courses": [
+    {
+      "altervista_id": 1,
+      "name": "Computer Science"
+    },
+    {
+      "altervista_id": 2,
+      "name": "Mathematics"
+    }
+  ],
+
+  "students": [
+    {
+      "altervista_id": 10,
+      "name": "John",
+      "middle_name": "A.",
+      "surname": "Doe"
+    },
+    {
+      "altervista_id": 11,
+      "name": "Jane",
+      "middle_name": "B.",
+      "surname": "Smith"
+    }
+  ],
+
+  "classes": [
+    {
+      "altervista_id": 100,
+      "course_id": 1,
+      "students": [10, 11],
+      "year_held": 2024,
+      "class_year": 3,
+      "section": "A"
+    },
+    {
+      "altervista_id": 101,
+      "course_id": 2,
+      "students": [11],
+      "year_held": 2024,
+      "class_year": 2,
+      "section": "B"
+    }
+  ]
+}
