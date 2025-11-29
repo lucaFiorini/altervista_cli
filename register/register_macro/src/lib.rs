@@ -1,10 +1,6 @@
-use proc_macro::{TokenStream};
-use quote::format_ident;
-use syn::{Data, DeriveInput, Field, Fields, Token};
+use syn::{Data, DeriveInput, Field, Fields};
 use syn::punctuated::Punctuated;
-use syn::token::{Comma, Token};
-use deluxe;
-
+use syn::token::{Comma};
 
 #[derive(deluxe::ExtractAttributes)]
 #[deluxe(attributes(register))]
@@ -17,12 +13,11 @@ fn extract_primary_id_field(fields: &mut Punctuated<Field, Comma>) -> deluxe::Re
     let mut found : Option<&mut Field> = None;
     for f in fields.iter_mut() {
         let RegisterIDAttribute {id} = deluxe::extract_attributes(f)?;
-        match id {
-            Some(_) => match found {
+        if id.is_some() {
+            match found {
                 None => found = Some(f),
                 Some(_) => panic!("There can only be one register(id) field")
-            },
-            None => {}
+            }
         }
     };
 
@@ -83,12 +78,12 @@ fn impl_register (mut ast : DeriveInput) -> deluxe::Result<proc_macro::TokenStre
                 }
             }
         };
-    }.into();
+    };
     Ok(parsed.into())
 }
 
 #[proc_macro_derive(Register,attributes(register))]
 pub fn register_derive_macro(item : proc_macro::TokenStream) -> proc_macro::TokenStream {
-    let ast : DeriveInput = syn::parse(item.into()).unwrap();
+    let ast : DeriveInput = syn::parse(item).unwrap();
     impl_register(ast).unwrap()
 }

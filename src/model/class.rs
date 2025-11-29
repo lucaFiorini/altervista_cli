@@ -1,4 +1,3 @@
-use crate::register::register_item;
 use register::{HasRegistry, AltervistaId, AltervistaItem, Register};
 use std::{
     collections::HashMap,

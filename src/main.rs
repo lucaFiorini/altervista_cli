@@ -1,10 +1,8 @@
-use std::{env, fs::File, io};
+use std::{fs::File, io};
 use std::sync::Arc;
-use serde::{Deserialize, Deserializer};
 use crate::model::class::*;
 use crate::front::cli;
-use register;
-use register::{AltervistaItem, HasRegistry};
+use register::{HasRegistry};
 
 mod front;
 mod model;
@@ -13,7 +11,7 @@ fn preload() {
     let path = dotenv::var("FILE_PATH")
         .expect("FILE_PATH must be set");
     let fs  = File::open(&path)
-        .expect(format!("Trying to read \"{}\" - file not found",path).as_str());
+        .expect("no file at FILE_PATH");
     let deserialized : serde_json::Value  = serde_json::from_reader(fs).
         expect("File must be valis json");
 

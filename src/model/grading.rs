@@ -65,8 +65,8 @@ impl Graded for GradedExamPart {
     fn get_comment(&self) -> &Option<String> { &self.grade.comment }
 }
 impl GradedExamPart {
-    fn new(exam_part: ExamPart,grade: Grade){
-        GradedExamPart{exam_part,grade};
+    fn new(exam_part: ExamPart,grade: Grade) -> Self{
+        GradedExamPart{exam_part,grade}
     }
 }
 

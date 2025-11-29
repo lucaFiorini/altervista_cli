@@ -1,10 +1,8 @@
 use std::collections::LinkedList;
-use std::env;
 use std::io::{self, Write};
-use crossterm::{cursor, event, execute, terminal, terminal::{ScrollUp, SetSize, size}, ExecutableCommand};
+use crossterm::{cursor, event, terminal, ExecutableCommand};
 use crossterm::event::{KeyCode, KeyEvent};
 use defer::defer;
-use dotenv::dotenv;
 
 pub fn cli_run() -> io::Result<()> {
     // Initialize the terminal

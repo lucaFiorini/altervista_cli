@@ -14,7 +14,7 @@ impl<T:HasRegistry<AltervistaId>> AltervistaItem<T>{
     pub fn get(id: &AltervistaId) -> Result<Self,String> {
         match T::get_registry().read().unwrap().get(id){
             None => Err(format!("Can't  find {} for id {}",std::any::type_name::<T>(),id)),
-            Some(v) => Ok(Self{0:v.clone()})
+            Some(v) => Ok(Self(v.clone()))
         }
     }
 }
